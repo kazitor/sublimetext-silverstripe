@@ -1,0 +1,37 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+name: Silverstripe
+file_extensions:
+  - ss
+scope: text.silverstripe
+contexts:
+  main:
+    - match: ""
+      push: "Packages/HTML/HTML.sublime-syntax"
+      with_prototype:
+        - match: '(\$)[[:alpha:]_][[:alnum:]_]*\b'
+          scope: variable.parameter.silverstripe
+          captures:
+            1: punctuation.definition.variable.silverstripe
+        - match: '<%--'
+          scope: punctuation.definition.comment.begin.silverstripe
+          push: comment
+        - match: '<%'
+          push: templatefunc
+
+  templatefunc:
+    - match: '\b(end_)?(loop|with|if)\b'
+      scope: keyword.control.silverstripe
+    - match: '(\$)[[:alpha:]_][[:alnum:]_]*\b'
+      scope: variable.parameter.silverstripe
+      captures:
+        1: punctuation.definition.variable.silverstripe
+    - match: '%>'
+      pop: true
+
+  comment:
+    - meta_scope: comment.block.silverstripe
+    - match: '--%>'
+      scope: punctuation.definition.comment.end.silverstripe
+      pop: true
