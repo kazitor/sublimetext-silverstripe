@@ -77,7 +77,7 @@ contexts:
       captures:
         1: punctuation.accessor.silverstripe
         2: meta.generic-name.silverstripe
-    - match: '\s'
+    - match: (?![[:alnum:]_]|\.)
       pop: true
 
   comment:
