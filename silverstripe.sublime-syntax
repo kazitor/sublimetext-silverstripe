@@ -10,7 +10,7 @@ contexts:
     - match: ""
       push: "Packages/HTML/HTML.sublime-syntax"
       with_prototype:
-        - match: '(\$)[[:alpha:]_][[:alnum:]_]*\b'
+        - match: (\$)[[:alpha:]_][[:alnum:]_]*\b
           scope: variable.parameter.silverstripe
           captures:
             1: punctuation.definition.variable.silverstripe
@@ -21,9 +21,17 @@ contexts:
           push: templatefunc
 
   templatefunc:
-    - match: '\b(end_)?(loop|with|if)\b'
+    - match: \b(end_)?(loop|with)\b
       scope: keyword.control.silverstripe
-    - match: '(\$)[[:alpha:]_][[:alnum:]_]*\b'
+    - match: \b(if|else_if|else|end_if)\b
+      scope: keyword.control.conditional.silverstripe
+    - match: \b(require|import)\b
+      scope: keyword.control.import.silverstripe
+    - match: \b(not|and|or|&&|\|\|)\b
+      scope: keyword.operator.logical.silverstripe
+    - match: \b(\<=?|>=?|==)\b
+      scope: keyword.operator.comparison.silverstripe
+    - match: (\$)[[:alpha:]_][[:alnum:]_]*\b
       scope: variable.parameter.silverstripe
       captures:
         1: punctuation.definition.variable.silverstripe
