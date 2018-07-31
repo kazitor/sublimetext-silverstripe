@@ -10,10 +10,11 @@ contexts:
     - match: ""
       push: "Packages/HTML/HTML.sublime-syntax"
       with_prototype:
-        - match: (\$)[[:alpha:]_][[:alnum:]_]*\b
-          scope: variable.parameter.silverstripe
-          captures:
-            1: punctuation.definition.variable.silverstripe
+        - match: \\\$
+          scope: constant.character.escape.silverstripe
+        - match: \$
+          scope: punctuation.definition.variable.silverstripe
+          push: variable
         - match: '<%--'
           scope: punctuation.definition.comment.begin.silverstripe
           push: comment
@@ -31,11 +32,52 @@ contexts:
       scope: keyword.operator.logical.silverstripe
     - match: \b(\<=?|>=?|==)\b
       scope: keyword.operator.comparison.silverstripe
-    - match: (\$)[[:alpha:]_][[:alnum:]_]*\b
-      scope: variable.parameter.silverstripe
+    - match: \$
+      scope: punctuation.definition.variable.silverstripe
+      push: variable
       captures:
         1: punctuation.definition.variable.silverstripe
     - match: '%>'
+      pop: true
+
+  variable:
+    - meta_content_scope: meta.qualified-name.silverstripe
+    - match: (\.)?([[:alpha:]_][[:alnum:]_]*)\(
+      captures:
+        1: punctuation.accessor.silverstripe
+        2: variable.function.silverstripe
+      push:
+        - match: ','
+          scope: punctuation.separator.silverstripe
+        - match: -?\d+(\.\d+)?
+          scope: constant.numeric.silverstripe
+        - match: '[[:alpha:]_][[:alnum:]_]*'
+          scope: string.unquoted.silverstripe
+        - match: "'"
+          scope: punctuation.definition.string.begin.silverstripe
+          push:
+            - meta_scope: string.quoted.single.silverstripe
+            - match: '\\.'
+              scope: constant.character.escape.silverstripe
+            - match: "'"
+              scope: punctuation.definition.string.end.silverstripe
+              pop: true
+        - match: '"'
+          scope: punctuation.definition.string.begin.silverstripe
+          push:
+            - meta_scope: string.quoted.single.silverstripe
+            - match: '\\.'
+              scope: constant.character.escape.silverstripe
+            - match: '"'
+              scope: punctuation.definition.string.end.silverstripe
+              pop: true
+        - match: '\)'
+          pop: true
+    - match: (\.)?([[:alpha:]_][[:alnum:]_]*)
+      captures:
+        1: punctuation.accessor.silverstripe
+        2: meta.generic-name.silverstripe
+    - match: '\s'
       pop: true
 
   comment:
