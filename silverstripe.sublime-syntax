@@ -32,6 +32,8 @@ contexts:
       scope: keyword.operator.logical.silverstripe
     - match: \b(\<=?|>=?|==)\b
       scope: keyword.operator.comparison.silverstripe
+    - match: \bbase_tag\b
+      scope: support.constant.silverstripe
     - match: \$
       scope: punctuation.definition.variable.silverstripe
       push: variable
@@ -51,6 +53,8 @@ contexts:
           scope: punctuation.separator.silverstripe
         - match: -?\d+(\.\d+)?
           scope: constant.numeric.silverstripe
+        - match: (true|false)
+          scope: constant.language
         - match: '[[:alpha:]_][[:alnum:]_]*'
           scope: string.unquoted.silverstripe
         - match: "'"
